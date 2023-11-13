@@ -432,7 +432,7 @@ class WhatsApp(object):
         return r.json()
 
     def send_document(
-        self, document, recipient_id, caption=None, link=True
+        self, document, recipient_id, caption=None, link=True, filename=None
     ) -> Dict[Any, Any]:
         """ "
         Sends a document message to a WhatsApp user
@@ -463,6 +463,9 @@ class WhatsApp(object):
                 "type": "document",
                 "document": {"id": document, "caption": caption},
             }
+
+        if filename:
+            data["document"]["filename"] = filename
 
         logging.info(f"Sending document to {recipient_id}")
         r = requests.post(self.url, headers=self.headers, json=data)
